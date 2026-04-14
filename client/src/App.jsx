@@ -66,7 +66,8 @@ const saveResume = async () => {
     try {
       setLoading(true);
 
-      const response = await fetch("http://localhost:5000/api/resume", {
+      const response = await fetch("${import.meta.env.VITE_API_URL}/api", {
+
         method: "POST",
         headers: {
           "Content-Type": "application/json",
