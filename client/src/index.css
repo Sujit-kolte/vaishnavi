@@ -1,0 +1,67 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+html {
+  scroll-behavior: smooth;
+}
+
+.resume-preview-card {
+  background: #ffffff;
+  border-radius: 22px;
+  padding: 35px;
+  margin-top: 30px;
+  box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+  max-width: 900px;
+  width: 100%;
+  color: #1f2937;
+  border: 1px solid #e5e7eb;
+}
+
+.resume-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 20px;
+  border-bottom: 2px solid #2563eb;
+  padding-bottom: 20px;
+  margin-bottom: 25px;
+}
+
+.resume-top h1 {
+  font-size: 2rem;
+  color: #1d4ed8;
+  margin-bottom: 10px;
+}
+
+.resume-top p {
+  margin: 4px 0;
+  color: #4b5563;
+  font-size: 0.98rem;
+}
+
+.resume-block {
+  margin-bottom: 25px;
+}
+
+.resume-block h2 {
+  color: #2563eb;
+  font-size: 1.15rem;
+  margin-bottom: 10px;
+  border-left: 4px solid #2563eb;
+  padding-left: 12px;
+}
+
+.resume-block p {
+  line-height: 1.8;
+  font-size: 1rem;
+  color: #374151;
+}
+
+.resume-profile-image {
+  width: 110px;
+  height: 110px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 4px solid #2563eb;
+}
