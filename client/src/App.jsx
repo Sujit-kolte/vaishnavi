@@ -104,7 +104,7 @@ const saveResume = async () => {
     try {
       setLoadingAts(true);
 
-      const response = await fetch("http://localhost:5000/ats-check", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -141,7 +141,7 @@ const saveResume = async () => {
     setChatLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/chat", {
+      const response = await fetch(`${import.meta.env.VITE_API_URL}/api`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
