@@ -1,6 +1,8 @@
 export default function handler(req, res) {
   if (req.method === "GET") {
-    return res.status(200).json({ message: "Backend working ✅" });
+    return res.status(200).json({
+      message: "Backend working ✅",
+    });
   }
 
   if (req.method === "POST") {
