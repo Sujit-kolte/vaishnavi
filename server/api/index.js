@@ -16,7 +16,7 @@ export default function handler(req, res) {
     }
 
     // ATS
-    if (skills) {
+    if (skills && !name) {
       return res.status(200).json({
         score: 80,
         status: "Good",
@@ -33,5 +33,5 @@ export default function handler(req, res) {
     }
   }
 
-  res.status(200).json({ message: "Backend working ✅" });
+  return res.status(200).json({ message: "Backend working ✅" });
 }
