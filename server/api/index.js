@@ -1,4 +1,12 @@
 export default function handler(req, res) {
+  // ✅ Handle GET request (important)
+  if (req.method === "GET") {
+    return res.status(200).json({
+      message: "Backend working ✅",
+    });
+  }
+
+  // ✅ Handle POST request
   if (req.method === "POST") {
     const { name, email, phone, skills, education, experience, projects, message } = req.body;
 
@@ -33,5 +41,5 @@ export default function handler(req, res) {
     }
   }
 
-  return res.status(200).json({ message: "Backend working ✅" });
+  return res.status(405).json({ error: "Method not allowed" });
 }
