@@ -1,56 +1,37 @@
-const express = require("express");
-const cors = require("cors");
+export default function handler(req, res) {
+  if (req.method === "POST") {
+    const { name, email, phone, skills, education, experience, projects, message } = req.body;
 
-const app = express();
+    // Resume
+    if (name) {
+      return res.status(200).json({
+        name,
+        summary: `${name} is skilled in ${skills}`,
+        education,
+        experience,
+        skills,
+        projects,
+        contact: { email, phone },
+      });
+    }
 
-const PORT = process.env.PORT || 5000;
+    // ATS
+    if (skills) {
+      return res.status(200).json({
+        score: 80,
+        status: "Good",
+        matchedKeywords: ["java", "react"],
+        suggestions: [],
+      });
+    }
 
-app.use(cors());
-app.use(express.json());
+    // Chat
+    if (message) {
+      return res.status(200).json({
+        reply: `AI says: ${message}`,
+      });
+    }
+  }
 
-// HOME
-app.get("/", (req, res) => {
-  res.send("CareerForge AI Backend Running...");
-});
-
-// TEST
-app.get("/test", (req, res) => {
-  res.json({ message: "Backend working ✅" });
-});
-
-// RESUME
-app.post("/api/resume", (req, res) => {
-  const { name, email, phone, skills, education, experience, projects } = req.body;
-
-  const resume = {
-    name,
-    summary: `${name} is skilled in ${skills}`,
-    education,
-    experience,
-    skills,
-    projects,
-    contact: { email, phone },
-  };
-
-  res.json(resume);
-});
-
-// ATS
-app.post("/ats-check", (req, res) => {
-  res.json({
-    score: 80,
-    status: "Good",
-    matchedKeywords: ["java", "react"],
-    suggestions: []
-  });
-});
-
-// CHAT
-app.post("/chat", (req, res) => {
-  res.json({ reply: "AI response working 👍" });
-});
-
-// START SERVER
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+  res.status(200).json({ message: "Backend working ✅" });
+}
