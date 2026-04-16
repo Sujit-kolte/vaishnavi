@@ -63,117 +63,105 @@ const saveResume = async () => {
   // GENERATE RESUME
   // =========================
   const generateResume = async () => {
-    try {
-      setLoading(true);
+  try {
+    setLoading(true);
 
-     const response = await fetch(`${import.meta.env.VITE_API_URL}/api`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
-      
+    // dummy AI logic (replace later with OpenAI if needed)
+    const data = {
+      name: formData.name,
+      summary: `${formData.name} is skilled in ${formData.skills}`,
+      education: formData.education,
+      skills: formData.skills,
+      experience: formData.experience,
+      projects: formData.projects,
+      contact: {
+        email: formData.email,
+        phone: formData.phone,
+      },
+    };
+
+    setResume(data);
+
+    await saveResume();
+    setActiveSection("build");
+  } catch (error) {
+    console.error(error);
+    alert("Error generating resume");
+  } finally {
+    setLoading(false);
+  }
+};
 // =========================
 // SAVE TO SUPABASE
 // =========================
 
 
-      const data = await response.json();
+  async function saveResume() {
+    const { data, error } = await supabase
+      .from("resumes")
+      .insert([
+        {
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          skills: formData.skills,
+          education: formData.education,
+          experience: formData.experience,
+          projects: formData.projects,
+        },
+      ]);
 
-      if (!response.ok) {
-        alert(data.error || "Error generating resume.");
-        return;
-      }
-
-      setResume(data);
-      await saveResume();
-      setActiveSection("build");
-    } catch (error) {
-      console.error("Resume fetch error:", error);
-      alert("Error generating resume. Check backend.");
-    } finally {
-      setLoading(false);
+    if (error) {
+      console.log("❌ Supabase Error:", error.message);
+    } else {
+      console.log("✅ Saved to Supabase:", data);
     }
-  };
+  }
 
   // =========================
   // ATS CHECKER
   // =========================
   const checkATS = async () => {
-    try {
-      setLoadingAts(true);
+  setLoadingAts(true);
 
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          skills: formData.skills,
-          experience: formData.experience,
-          projects: formData.projects,
-          education: formData.education,
-        }),
-      });
+  const skills = formData.skills.toLowerCase();
 
-      const data = await response.json();
-      setAtsResult(data);
-      setActiveSection("ats");
-    } catch (error) {
-      console.error("ATS Checker Error:", error);
-      alert("Error checking ATS score");
-    } finally {
-      setLoadingAts(false);
-    }
-  };
+  const score = skills.length > 20 ? 80 : 60;
 
+  setAtsResult({
+    score,
+    status: score > 70 ? "Good" : "Needs Improvement",
+    matchedKeywords: formData.skills.split(","),
+    suggestions: ["Add more keywords", "Improve project descriptions"],
+  });
+
+  setActiveSection("ats");
+  setLoadingAts(false);
+};
   // =========================
   // AI CHAT
   // =========================
-  const sendMessage = async () => {
-    if (!chatMessage.trim()) return;
+ const sendMessage = async () => {
+  if (!chatMessage.trim()) return;
 
-    const userText = chatMessage;
+  const userText = chatMessage;
 
-    setChatHistory((prev) => [...prev, { role: "user", text: userText }]);
-    setChatMessage("");
-    setChatLoading(true);
+  setChatHistory((prev) => [...prev, { role: "user", text: userText }]);
+  setChatMessage("");
+  setChatLoading(true);
 
-    try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL}/api`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          message: userText,
-          userData: formData,
-        }),
-      });
+  setTimeout(() => {
+    setChatHistory((prev) => [
+      ...prev,
+      {
+        role: "assistant",
+        text: `AI Response: ${userText} (I can help improve resume, skills, etc.)`,
+      },
+    ]);
 
-      const data = await response.json();
-
-      setChatHistory((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          text: data.reply || "No reply from backend.",
-        },
-      ]);
-    } catch (error) {
-      setChatHistory((prev) => [
-        ...prev,
-        {
-          role: "assistant",
-          text: "Backend not responding. Please check if server is running.",
-        },
-      ]);
-    } finally {
-      setChatLoading(false);
-    }
-  };
-
+    setChatLoading(false);
+  }, 1000);
+};
   // =========================
   // DOWNLOAD PDF
   // =========================
