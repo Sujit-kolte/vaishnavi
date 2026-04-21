@@ -41,7 +41,7 @@ function App() {
   const saveResume = async () => {
     try {
       console.log("📝 Saving resume to database...");
-      
+
       const resumeData = {
         name: formData.name,
         email: formData.email,
@@ -55,7 +55,9 @@ function App() {
 
       console.log("Data being saved:", resumeData);
 
-      const { data, error } = await supabase.from("resumes").insert([resumeData]);
+      const { data, error } = await supabase
+        .from("resumes")
+        .insert([resumeData]);
 
       if (error) {
         console.error("❌ Database Error:", error.message);
@@ -534,11 +536,15 @@ function App() {
                       <h1>{resume.name || "Your Name"}</h1>
                       <p>
                         <strong>Email:</strong>{" "}
-                        {resume.contact?.email || formData.email || "your@email.com"}
+                        {resume.contact?.email ||
+                          formData.email ||
+                          "your@email.com"}
                       </p>
                       <p>
                         <strong>Phone:</strong>{" "}
-                        {resume.contact?.phone || formData.phone || "0000000000"}
+                        {resume.contact?.phone ||
+                          formData.phone ||
+                          "0000000000"}
                       </p>
                     </div>
                   </div>
@@ -573,17 +579,6 @@ function App() {
                     <p>
                       {resume.summary ||
                         "Seeking an opportunity to apply my technical skills, problem-solving ability, and passion for software development in a growth-oriented organization."}
-                    </p>
-                  </div>
-                </div>
-              )}
-
-                  <div className="resume-block">
-                    <h2>Career Objective</h2>
-                    <p>
-                      Seeking an opportunity to apply my technical skills,
-                      problem-solving ability, and passion for software
-                      development in a growth-oriented organization.
                     </p>
                   </div>
                 </div>
