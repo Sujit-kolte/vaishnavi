@@ -1,4 +1,4 @@
-const supabase = require("../config/supabase");
+const supabase = require("../config/supabaseClient");
 
 exports.registerUser = async (req, res) => {
   try {
@@ -8,8 +8,8 @@ exports.registerUser = async (req, res) => {
       email,
       password,
       options: {
-        data: { name }
-      }
+        data: { name },
+      },
     });
 
     if (error) {
@@ -18,9 +18,8 @@ exports.registerUser = async (req, res) => {
 
     res.status(200).json({
       message: "User registered successfully",
-      user: data.user
+      user: data.user,
     });
-
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
@@ -41,9 +40,8 @@ exports.loginUser = async (req, res) => {
     res.status(200).json({
       message: "Login successful",
       session: data.session,
-      user: data.user
+      user: data.user,
     });
-
   } catch (err) {
     res.status(500).json({ error: "Server error" });
   }
