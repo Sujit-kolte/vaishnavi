@@ -84,7 +84,24 @@ function App() {
         return;
       }
 
-      setResume(data);
+      // Transform the data into the structure expected by ResumePreview
+      const structuredResume = {
+        name: formData.name || "Your Name",
+        contact: {
+          email: formData.email || "your@email.com",
+          phone: formData.phone || "0000000000",
+        },
+        summary: formData.skills
+          ? `${formData.name || "Candidate"} is a motivated and detail-oriented candidate with skills in ${formData.skills}. Passionate about learning, software development, and problem solving.`
+          : "Not provided",
+        education: formData.education || "Not provided",
+        experience: formData.experience || "Not provided",
+        skills: formData.skills || "Not provided",
+        projects: formData.projects || "Not provided",
+        textResume: data.resume,
+      };
+
+      setResume(structuredResume);
       await saveResume();
       setActiveSection("build");
     } catch (error) {
