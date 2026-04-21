@@ -1,6 +1,6 @@
 import React, { useState, useRef } from "react";
 import html2pdf from "html2pdf.js";
-import { supabase } from './lib/supabase' // adjust path
+import { supabase } from "./lib/supabase"; // adjust path
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -35,13 +35,11 @@ function App() {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-// =========================
-// SAVE TO SUPABASE
-// =========================
-const saveResume = async () => {
-  const { data, error } = await supabase
-    .from('resumes')
-    .insert([
+  // =========================
+  // SAVE TO SUPABASE
+  // =========================
+  const saveResume = async () => {
+    const { data, error } = await supabase.from("resumes").insert([
       {
         name: formData.name,
         email: formData.email,
@@ -50,15 +48,15 @@ const saveResume = async () => {
         education: formData.education,
         experience: formData.experience,
         projects: formData.projects,
-      }
-    ])
+      },
+    ]);
 
-  if (error) {
-    console.log("❌ Error:", error.message)
-  } else {
-    console.log("✅ Saved:", data)
-  }
-}
+    if (error) {
+      console.log("❌ Error:", error.message);
+    } else {
+      console.log("✅ Saved:", data);
+    }
+  };
   // =========================
   // GENERATE RESUME
   // =========================
@@ -74,11 +72,10 @@ const saveResume = async () => {
         },
         body: JSON.stringify(formData),
       });
-      
-// =========================
-// SAVE TO SUPABASE
-// =========================
 
+      // =========================
+      // SAVE TO SUPABASE
+      // =========================
 
       const data = await response.json();
 
@@ -208,115 +205,107 @@ const saveResume = async () => {
     <div className={`min-h-screen ${bgMain} transition-all duration-300`}>
       {/* ================= NAVBAR ================= */}
 
-<nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-sm">
-  <div className="px-4 md:px-8 lg:px-10 py-4 flex items-center justify-between gap-4">
-    
-    {/* LEFT: BRAND */}
-    <div
-      onClick={() => setActiveSection("home")}
-      className="flex items-center gap-3 cursor-pointer shrink-0"
-    >
-      <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-xl font-extrabold shadow-lg">
-        C
-      </div>
+      <nav className="sticky top-0 z-50 bg-white/80 dark:bg-slate-950/80 backdrop-blur-xl border-b border-slate-200 dark:border-slate-800 shadow-sm">
+        <div className="px-4 md:px-8 lg:px-10 py-4 flex items-center justify-between gap-4">
+          {/* LEFT: BRAND */}
+          <div
+            onClick={() => setActiveSection("home")}
+            className="flex items-center gap-3 cursor-pointer shrink-0">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-600 via-indigo-600 to-purple-600 flex items-center justify-center text-white text-xl font-extrabold shadow-lg">
+              C
+            </div>
 
-      <div className="leading-tight">
-        <h1 className="text-xl md:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
-          CareerForge AI
-        </h1>
-        <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
-          Smart Resume Builder
-        </p>
-      </div>
-    </div>
+            <div className="leading-tight">
+              <h1 className="text-xl md:text-2xl font-extrabold tracking-tight bg-gradient-to-r from-blue-600 via-indigo-600 to-purple-600 bg-clip-text text-transparent">
+                CareerForge AI
+              </h1>
+              <p className="text-xs md:text-sm text-slate-500 dark:text-slate-400">
+                Smart Resume Builder
+              </p>
+            </div>
+          </div>
 
-    {/* CENTER: NAV MENU */}
-    <div className="hidden lg:flex items-center gap-2 bg-slate-100/80 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-inner">
-      {[
-        { key: "home", label: "Home"},
-        { key: "build", label: "Build Resume"  },
-        { key: "ats", label: "ATS Checker" },
-        { key: "assistant", label: "AI Assistant" },
-        { key: "templates", label: "Templates"},
-        { key: "tips", label: "Career Tips" },
-      ].map((item) => (
-        <button
-          key={item.key}
-          onClick={() => setActiveSection(item.key)}
-          className={`px-4 py-2.5 rounded-xl text-sm xl:text-base font-semibold transition-all duration-300 flex items-center gap-2 ${
-            activeSection === item.key
-              ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md scale-[1.02]"
-              : "text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-800 hover:shadow-sm"
-          }`}
-        >
-          <span>{item.icon}</span>
-          <span>{item.label}</span>
-        </button>
-      ))}
-    </div>
+          {/* CENTER: NAV MENU */}
+          <div className="hidden lg:flex items-center gap-2 bg-slate-100/80 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl p-2 shadow-inner">
+            {[
+              { key: "home", label: "Home" },
+              { key: "build", label: "Build Resume" },
+              { key: "ats", label: "ATS Checker" },
+              { key: "assistant", label: "AI Assistant" },
+              { key: "templates", label: "Templates" },
+              { key: "tips", label: "Career Tips" },
+            ].map((item) => (
+              <button
+                key={item.key}
+                onClick={() => setActiveSection(item.key)}
+                className={`px-4 py-2.5 rounded-xl text-sm xl:text-base font-semibold transition-all duration-300 flex items-center gap-2 ${
+                  activeSection === item.key
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md scale-[1.02]"
+                    : "text-slate-700 dark:text-slate-200 hover:bg-white dark:hover:bg-slate-800 hover:shadow-sm"
+                }`}>
+                <span>{item.icon}</span>
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
 
-    {/* RIGHT: SEARCH + DARK MODE + QUICK ACTION */}
-    <div className="flex items-center gap-3">
-      
-      {/* SEARCH LOOK */}
-      <div className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 min-w-[220px]">
-        <span className="text-slate-400">🔍</span>
-        <input
-          type="text"
-          placeholder="Search section..."
-          className="bg-transparent outline-none text-sm w-full text-slate-700 dark:text-slate-200 placeholder:text-slate-400"
-          onFocus={() => setActiveSection("build")}
-        />
-      </div>
+          {/* RIGHT: SEARCH + DARK MODE + QUICK ACTION */}
+          <div className="flex items-center gap-3">
+            {/* SEARCH LOOK */}
+            <div className="hidden md:flex items-center gap-2 px-4 py-2.5 rounded-2xl bg-slate-100 dark:bg-slate-900 border border-slate-200 dark:border-slate-800 min-w-[220px]">
+              <span className="text-slate-400">🔍</span>
+              <input
+                type="text"
+                placeholder="Search section..."
+                className="bg-transparent outline-none text-sm w-full text-slate-700 dark:text-slate-200 placeholder:text-slate-400"
+                onFocus={() => setActiveSection("build")}
+              />
+            </div>
 
-      {/* DARK MODE */}
-      <button
-        onClick={() => setDarkMode(!darkMode)}
-        className="px-5 py-2.5 rounded-2xl font-semibold shadow-md bg-gradient-to-r from-slate-200 to-slate-100 dark:from-slate-800 dark:to-slate-700 text-slate-800 dark:text-white hover:scale-105 transition-all duration-300"
-      >
-        {darkMode ? "☀ Light" : "🌙 Dark"}
-      </button>
+            {/* DARK MODE */}
+            <button
+              onClick={() => setDarkMode(!darkMode)}
+              className="px-5 py-2.5 rounded-2xl font-semibold shadow-md bg-gradient-to-r from-slate-200 to-slate-100 dark:from-slate-800 dark:to-slate-700 text-slate-800 dark:text-white hover:scale-105 transition-all duration-300">
+              {darkMode ? "☀ Light" : "🌙 Dark"}
+            </button>
 
-      {/* QUICK CTA */}
-      <button
-        onClick={() => setActiveSection("build")}
-        className="hidden md:block px-5 py-2.5 rounded-2xl font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 shadow-lg transition-all duration-300"
-      >
-        + New Resume
-      </button>
-    </div>
-  </div>
+            {/* QUICK CTA */}
+            <button
+              onClick={() => setActiveSection("build")}
+              className="hidden md:block px-5 py-2.5 rounded-2xl font-bold text-white bg-gradient-to-r from-blue-600 to-indigo-600 hover:scale-105 shadow-lg transition-all duration-300">
+              + New Resume
+            </button>
+          </div>
+        </div>
 
-  {/* MOBILE NAV */}
-  <div className="lg:hidden px-4 md:px-8 pb-4">
-    <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
-      {[
-        { key: "home", label: "Home"},
-        { key: "build", label: "Build" },
-        { key: "ats", label: "ATS" },
-        { key: "assistant", label: "AI"  },
-        { key: "templates", label: "Temp" },
-        { key: "tips", label: "Tips"},
-      ].map((item) => (
-        <button
-          key={item.key}
-          onClick={() => setActiveSection(item.key)}
-          className={`px-3 py-3 rounded-2xl text-sm font-semibold transition-all flex flex-col items-center justify-center gap-1 ${
-            activeSection === item.key
-              ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
-              : "bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800"
-          }`}
-        >
-          <span className="text-lg">{item.icon}</span>
-          <span>{item.label}</span>
-        </button>
-      ))}
-    </div>
-  </div>
-</nav>
+        {/* MOBILE NAV */}
+        <div className="lg:hidden px-4 md:px-8 pb-4">
+          <div className="grid grid-cols-3 sm:grid-cols-6 gap-2">
+            {[
+              { key: "home", label: "Home" },
+              { key: "build", label: "Build" },
+              { key: "ats", label: "ATS" },
+              { key: "assistant", label: "AI" },
+              { key: "templates", label: "Temp" },
+              { key: "tips", label: "Tips" },
+            ].map((item) => (
+              <button
+                key={item.key}
+                onClick={() => setActiveSection(item.key)}
+                className={`px-3 py-3 rounded-2xl text-sm font-semibold transition-all flex flex-col items-center justify-center gap-1 ${
+                  activeSection === item.key
+                    ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md"
+                    : "bg-slate-100 dark:bg-slate-900 text-slate-700 dark:text-slate-200 border border-slate-200 dark:border-slate-800"
+                }`}>
+                <span className="text-lg">{item.icon}</span>
+                <span>{item.label}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      </nav>
       <div className="flex">
         {/* ================= SIDEBAR ================= */}
-      
 
         {/* ================= MAIN ================= */}
         <main className="flex-1 p-6 md:p-10">
@@ -329,31 +318,33 @@ const saveResume = async () => {
                     AI-Powered Career Builder
                   </p>
                   <h1 className="text-5xl md:text-7xl font-extrabold leading-tight mb-6">
-                    Build a <span className="text-yellow-300">Job-Winning Resume</span> with AI
+                    Build a{" "}
+                    <span className="text-yellow-300">Job-Winning Resume</span>{" "}
+                    with AI
                   </h1>
                   <p className="text-xl text-blue-100 leading-9 max-w-3xl mb-8">
-                    Create polished resumes, improve summaries, optimize ATS score,
-                    and get AI-powered career guidance — all in one beautiful platform.
+                    Create polished resumes, improve summaries, optimize ATS
+                    score, and get AI-powered career guidance — all in one
+                    beautiful platform.
                   </p>
 
                   <div className="flex flex-wrap gap-4">
                     <button
                       onClick={() => setActiveSection("build")}
-                      className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold hover:scale-105 transition"
-                    >
+                      className="bg-white text-blue-700 px-8 py-4 rounded-2xl font-bold hover:scale-105 transition">
                       Build Resume
                     </button>
                     <button
                       onClick={() => setActiveSection("assistant")}
-                      className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-2xl font-bold hover:scale-105 transition"
-                    >
+                      className="bg-white/10 backdrop-blur-md border border-white/20 text-white px-8 py-4 rounded-2xl font-bold hover:scale-105 transition">
                       Explore AI Assistant
                     </button>
                   </div>
 
                   <div className="mt-10 bg-white/10 border border-white/20 rounded-3xl px-6 py-5 backdrop-blur-md max-w-2xl">
                     <p className="italic text-lg">
-                      “Your resume is your first impression — make it unforgettable.”
+                      “Your resume is your first impression — make it
+                      unforgettable.”
                     </p>
                   </div>
                 </div>
@@ -384,11 +375,12 @@ const saveResume = async () => {
                 ].map((item, index) => (
                   <div
                     key={index}
-                    className={`${cardBg} rounded-[2rem] p-7 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition`}
-                  >
+                    className={`${cardBg} rounded-[2rem] p-7 shadow-lg hover:shadow-2xl hover:-translate-y-1 transition`}>
                     <div className="text-4xl mb-5">{item.icon}</div>
                     <h3 className="text-3xl font-bold mb-3">{item.title}</h3>
-                    <p className="text-slate-500 leading-8 text-lg">{item.desc}</p>
+                    <p className="text-slate-500 leading-8 text-lg">
+                      {item.desc}
+                    </p>
                   </div>
                 ))}
               </section>
@@ -402,12 +394,48 @@ const saveResume = async () => {
                 <h2 className="text-4xl font-bold mb-8">Build Your Resume</h2>
 
                 <div className="grid md:grid-cols-2 gap-5">
-                  <input name="name" value={formData.name} onChange={handleChange} placeholder="Full Name" className={`w-full p-4 rounded-2xl border ${inputBg}`} />
-                  <input name="email" value={formData.email} onChange={handleChange} placeholder="Email" className={`w-full p-4 rounded-2xl border ${inputBg}`} />
-                  <input name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" className={`w-full p-4 rounded-2xl border ${inputBg}`} />
-                  <input name="skills" value={formData.skills} onChange={handleChange} placeholder="Skills (e.g. Java, Python, SQL)" className={`w-full p-4 rounded-2xl border ${inputBg}`} />
-                  <input name="education" value={formData.education} onChange={handleChange} placeholder="Education" className={`w-full p-4 rounded-2xl border ${inputBg}`} />
-                  <input name="experience" value={formData.experience} onChange={handleChange} placeholder="Experience / Internship" className={`w-full p-4 rounded-2xl border ${inputBg}`} />
+                  <input
+                    name="name"
+                    value={formData.name}
+                    onChange={handleChange}
+                    placeholder="Full Name"
+                    className={`w-full p-4 rounded-2xl border ${inputBg}`}
+                  />
+                  <input
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="Email"
+                    className={`w-full p-4 rounded-2xl border ${inputBg}`}
+                  />
+                  <input
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="Phone"
+                    className={`w-full p-4 rounded-2xl border ${inputBg}`}
+                  />
+                  <input
+                    name="skills"
+                    value={formData.skills}
+                    onChange={handleChange}
+                    placeholder="Skills (e.g. Java, Python, SQL)"
+                    className={`w-full p-4 rounded-2xl border ${inputBg}`}
+                  />
+                  <input
+                    name="education"
+                    value={formData.education}
+                    onChange={handleChange}
+                    placeholder="Education"
+                    className={`w-full p-4 rounded-2xl border ${inputBg}`}
+                  />
+                  <input
+                    name="experience"
+                    value={formData.experience}
+                    onChange={handleChange}
+                    placeholder="Experience / Internship"
+                    className={`w-full p-4 rounded-2xl border ${inputBg}`}
+                  />
                 </div>
 
                 <textarea
@@ -422,23 +450,20 @@ const saveResume = async () => {
                 <div className="mt-6 flex flex-wrap gap-4">
                   <button
                     onClick={generateResume}
-                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition"
-                  >
+                    className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition">
                     {loading ? "Generating..." : "Generate Resume"}
                   </button>
 
                   <button
                     onClick={checkATS}
-                    className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition"
-                  >
+                    className="bg-purple-600 hover:bg-purple-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition">
                     {loadingAts ? "Checking ATS..." : "Check ATS Score"}
                   </button>
 
                   {resume && (
                     <button
                       onClick={downloadPDF}
-                      className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition"
-                    >
+                      className="bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition">
                       Download PDF
                     </button>
                   )}
@@ -451,8 +476,12 @@ const saveResume = async () => {
                   <div className="resume-top">
                     <div>
                       <h1>{resume.name}</h1>
-                      <p><strong>Email:</strong> {resume.contact?.email}</p>
-                      <p><strong>Phone:</strong> {resume.contact?.phone}</p>
+                      <p>
+                        <strong>Email:</strong> {resume.contact?.email}
+                      </p>
+                      <p>
+                        <strong>Phone:</strong> {resume.contact?.phone}
+                      </p>
                     </div>
                   </div>
 
@@ -484,8 +513,9 @@ const saveResume = async () => {
                   <div className="resume-block">
                     <h2>Career Objective</h2>
                     <p>
-                      Seeking an opportunity to apply my technical skills, problem-solving
-                      ability, and passion for software development in a growth-oriented organization.
+                      Seeking an opportunity to apply my technical skills,
+                      problem-solving ability, and passion for software
+                      development in a growth-oriented organization.
                     </p>
                   </div>
                 </div>
@@ -503,8 +533,7 @@ const saveResume = async () => {
 
               <button
                 onClick={checkATS}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition"
-              >
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold shadow-lg transition">
                 {loadingAts ? "Checking..." : "Check ATS Score"}
               </button>
 
@@ -516,7 +545,9 @@ const saveResume = async () => {
 
                   <p className="text-xl font-medium mb-4">
                     Status:{" "}
-                    <span className="text-green-600 font-bold">{atsResult.status}</span>
+                    <span className="text-green-600 font-bold">
+                      {atsResult.status}
+                    </span>
                   </p>
 
                   <div className="mb-5">
@@ -528,13 +559,14 @@ const saveResume = async () => {
                         atsResult.matchedKeywords.map((keyword, index) => (
                           <span
                             key={index}
-                            className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium"
-                          >
+                            className="bg-blue-100 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
                             {keyword}
                           </span>
                         ))
                       ) : (
-                        <p className="text-gray-500">No strong keywords found.</p>
+                        <p className="text-gray-500">
+                          No strong keywords found.
+                        </p>
                       )}
                     </div>
                   </div>
@@ -563,7 +595,8 @@ const saveResume = async () => {
             <section className={`${cardBg} rounded-[2rem] p-8 shadow-xl`}>
               <h2 className="text-4xl font-bold mb-6">AI Career Assistant</h2>
 
-              <div className={`rounded-3xl p-5 h-[450px] overflow-y-auto border ${darkMode ? "bg-slate-950 border-slate-800" : "bg-slate-50 border-slate-200"}`}>
+              <div
+                className={`rounded-3xl p-5 h-[450px] overflow-y-auto border ${darkMode ? "bg-slate-950 border-slate-800" : "bg-slate-50 border-slate-200"}`}>
                 <div className="space-y-4">
                   {chatHistory.map((msg, index) => (
                     <div
@@ -572,16 +605,16 @@ const saveResume = async () => {
                         msg.role === "user"
                           ? "ml-auto bg-blue-600 text-white"
                           : darkMode
-                          ? "bg-slate-800 text-white"
-                          : "bg-white text-slate-900"
-                      }`}
-                    >
+                            ? "bg-slate-800 text-white"
+                            : "bg-white text-slate-900"
+                      }`}>
                       {msg.text}
                     </div>
                   ))}
 
                   {chatLoading && (
-                    <div className={`max-w-[80%] px-5 py-4 rounded-3xl shadow ${darkMode ? "bg-slate-800 text-white" : "bg-white text-slate-900"}`}>
+                    <div
+                      className={`max-w-[80%] px-5 py-4 rounded-3xl shadow ${darkMode ? "bg-slate-800 text-white" : "bg-white text-slate-900"}`}>
                       Thinking...
                     </div>
                   )}
@@ -599,8 +632,7 @@ const saveResume = async () => {
                 />
                 <button
                   onClick={sendMessage}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold"
-                >
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-2xl font-bold">
                   Send
                 </button>
               </div>
@@ -615,11 +647,13 @@ const saveResume = async () => {
                 {["Classic", "Modern", "Professional"].map((template, i) => (
                   <div
                     key={i}
-                    className="rounded-3xl border p-6 hover:shadow-xl transition bg-gradient-to-br from-blue-50 to-indigo-50"
-                  >
-                    <h3 className="text-2xl font-bold mb-3">{template} Template</h3>
+                    className="rounded-3xl border p-6 hover:shadow-xl transition bg-gradient-to-br from-blue-50 to-indigo-50">
+                    <h3 className="text-2xl font-bold mb-3">
+                      {template} Template
+                    </h3>
                     <p className="text-slate-600 leading-7">
-                      A clean and attractive layout suitable for job applications.
+                      A clean and attractive layout suitable for job
+                      applications.
                     </p>
                   </div>
                 ))}

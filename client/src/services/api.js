@@ -4,7 +4,7 @@ import API from "../utils/api";
 // RESUME GENERATION
 // =========================
 export const generateResume = async (formData) => {
-  const response = await API.post("/api/resume", formData);
+  const response = await API.post("/api/resume/generate", formData);
   return response.data;
 };
 
@@ -12,7 +12,7 @@ export const generateResume = async (formData) => {
 // AI CHAT
 // =========================
 export const askAI = async (message, userData) => {
-  const response = await API.post("/chat", {
+  const response = await API.post("/api/ai/chat", {
     message,
     userData,
   });
