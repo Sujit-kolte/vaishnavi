@@ -39,8 +39,10 @@ function App() {
   // SAVE TO SUPABASE
   // =========================
   const saveResume = async () => {
-    const { data, error } = await supabase.from("resumes").insert([
-      {
+    try {
+      console.log("📝 Saving resume to database...");
+      
+      const resumeData = {
         name: formData.name,
         email: formData.email,
         phone: formData.phone,
@@ -48,13 +50,24 @@ function App() {
         education: formData.education,
         experience: formData.experience,
         projects: formData.projects,
-      },
-    ]);
+        created_at: new Date().toISOString(),
+      };
 
-    if (error) {
-      console.log("❌ Error:", error.message);
-    } else {
-      console.log("✅ Saved:", data);
+      console.log("Data being saved:", resumeData);
+
+      const { data, error } = await supabase.from("resumes").insert([resumeData]);
+
+      if (error) {
+        console.error("❌ Database Error:", error.message);
+        console.error("Error Details:", error);
+        alert(`Database Error: ${error.message}`);
+      } else {
+        console.log("✅ Resume Saved Successfully to Database!", data);
+        alert("✅ Resume saved to database successfully!");
+      }
+    } catch (err) {
+      console.error("❌ Unexpected Error:", err);
+      alert(`Error: ${err.message}`);
     }
   };
   // =========================
