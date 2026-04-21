@@ -3,29 +3,21 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-
   "engines": {
     "node": "24.x"
   },
-
   "scripts": {
     "dev": "vite",
-    "build": "chmod +x node_modules/.bin/vite && vite build",
+    "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
   },
-
   "dependencies": {
     "@supabase/supabase-js": "^2.101.1",
     "axios": "^1.14.0",
-   
-    
-    
     "html2canvas": "^1.4.1",
     "html2pdf.js": "^0.14.0",
-    
     "jspdf": "^4.2.1",
-    
     "openai": "^6.17.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
@@ -33,7 +25,6 @@
     "react-router-dom": "^7.13.0",
     "react-to-print": "^3.3.0"
   },
-
   "devDependencies": {
     "@eslint/js": "^9.39.1",
     "@types/react": "^19.2.5",
@@ -48,7 +39,6 @@
     "tailwindcss": "^3.4.19",
     "vite": "^7.3.2"
   },
-
   "description": "",
   "main": "postcss.config.js",
   "keywords": [],

@@ -1,9 +1,4 @@
-import axios from "axios";
-
-// Use env instead of hardcoded URL (IMPORTANT for deployment)
-const API = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:5000",
-});
+import API from "../utils/api";
 
 // =========================
 // RESUME GENERATION
