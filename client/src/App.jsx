@@ -101,8 +101,9 @@ function App() {
   const checkATS = async () => {
     try {
       setLoadingAts(true);
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
-      const response = await fetch("http://localhost:5000/ats-check", {
+      const response = await fetch(`${apiUrl}/api/resume/ats-check`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -139,7 +140,8 @@ function App() {
     setChatLoading(true);
 
     try {
-      const response = await fetch("http://localhost:5000/chat", {
+      const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
+      const response = await fetch(`${apiUrl}/api/ai/chat`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

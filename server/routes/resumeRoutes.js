@@ -13,7 +13,8 @@ router.get("/test", (req, res) => {
 ========================================= */
 router.post("/generate", (req, res) => {
   try {
-    const { name, email, phone, skills, education, experience, projects } = req.body;
+    const { name, email, phone, skills, education, experience, projects } =
+      req.body;
 
     const generatedResume = `
 ========================================
@@ -55,14 +56,12 @@ To secure a challenging position in a reputed organization where I can use my te
 `;
 
     res.json({
-      success: true,
       resume: generatedResume,
     });
   } catch (error) {
     console.error("Generate Resume Error:", error);
     res.status(500).json({
-      success: false,
-      message: "Error generating resume",
+      error: "Error generating resume",
     });
   }
 });
@@ -81,6 +80,43 @@ router.post("/save", (req, res) => {
     res.status(500).json({
       success: false,
       message: "Error saving resume",
+    });
+  }
+});
+
+/* =========================================
+   ATS CHECK
+========================================= */
+router.post("/ats-check", (req, res) => {
+  try {
+    const { skills, experience, projects, education } = req.body;
+
+    // Simple ATS scoring based on content
+    let score = 50; // Base score
+
+    if (skills && skills.length > 10) score += 10;
+    if (experience && experience.length > 20) score += 10;
+    if (projects && projects.length > 0) score += 10;
+    if (education && education.length > 0) score += 10;
+
+    const tips = [];
+    if (!skills || skills.length < 5) tips.push("Add more technical skills");
+    if (!experience || experience.length < 10)
+      tips.push("Provide more work experience details");
+    if (!projects || projects.length === 0)
+      tips.push("Add projects to showcase your work");
+    if (!education || education.length === 0)
+      tips.push("Include your educational background");
+
+    res.json({
+      score: Math.min(score, 100),
+      tips: tips,
+      status: score >= 70 ? "Good" : "Needs Improvement",
+    });
+  } catch (error) {
+    console.error("ATS Check Error:", error);
+    res.status(500).json({
+      error: "Error checking ATS score",
     });
   }
 });
