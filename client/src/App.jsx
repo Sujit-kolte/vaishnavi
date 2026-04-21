@@ -64,6 +64,9 @@ function App() {
     try {
       setLoading(true);
 
+      // Debug: Check formData
+      console.log("Form Data:", formData);
+
       const apiUrl = import.meta.env.VITE_API_URL || "http://localhost:5000";
       const response = await fetch(`${apiUrl}/api/resume/generate`, {
         method: "POST",
@@ -84,23 +87,44 @@ function App() {
         return;
       }
 
-      // Transform the data into the structure expected by ResumePreview
+      // Transform the data into the structure expected by display
       const structuredResume = {
-        name: formData.name || "Your Name",
+        name:
+          formData.name && formData.name.trim() ? formData.name : "Your Name",
         contact: {
-          email: formData.email || "your@email.com",
-          phone: formData.phone || "0000000000",
+          email:
+            formData.email && formData.email.trim()
+              ? formData.email
+              : "your@email.com",
+          phone:
+            formData.phone && formData.phone.trim()
+              ? formData.phone
+              : "0000000000",
         },
-        summary: formData.skills
-          ? `${formData.name || "Candidate"} is a motivated and detail-oriented candidate with skills in ${formData.skills}. Passionate about learning, software development, and problem solving.`
-          : "Not provided",
-        education: formData.education || "Not provided",
-        experience: formData.experience || "Not provided",
-        skills: formData.skills || "Not provided",
-        projects: formData.projects || "Not provided",
+        summary:
+          formData.skills && formData.skills.trim()
+            ? `${formData.name || "Candidate"} is a motivated and detail-oriented professional with strong expertise in ${formData.skills}. Passionate about leveraging technical skills to solve complex problems and drive innovation.`
+            : "Motivated professional seeking opportunities to contribute technical skills and expertise.",
+        education:
+          formData.education && formData.education.trim()
+            ? formData.education
+            : "Bachelor's Degree in Computer Science",
+        experience:
+          formData.experience && formData.experience.trim()
+            ? formData.experience
+            : "Relevant work experience and internships",
+        skills:
+          formData.skills && formData.skills.trim()
+            ? formData.skills
+            : "Technical skills and competencies",
+        projects:
+          formData.projects && formData.projects.trim()
+            ? formData.projects
+            : "Notable projects and achievements",
         textResume: data.resume,
       };
 
+      console.log("Structured Resume:", structuredResume);
       setResume(structuredResume);
       await saveResume();
       setActiveSection("build");
@@ -494,40 +518,52 @@ function App() {
                 <div ref={resumeRef} className="resume-preview-card">
                   <div className="resume-top">
                     <div>
-                      <h1>{resume.name}</h1>
+                      <h1>{resume.name || "Your Name"}</h1>
                       <p>
-                        <strong>Email:</strong> {resume.contact?.email}
+                        <strong>Email:</strong>{" "}
+                        {resume.contact?.email || formData.email || "your@email.com"}
                       </p>
                       <p>
-                        <strong>Phone:</strong> {resume.contact?.phone}
+                        <strong>Phone:</strong>{" "}
+                        {resume.contact?.phone || formData.phone || "0000000000"}
                       </p>
                     </div>
                   </div>
 
                   <div className="resume-block">
                     <h2>Professional Summary</h2>
-                    <p>{resume.summary}</p>
+                    <p>{resume.summary || "Summary not provided"}</p>
                   </div>
 
                   <div className="resume-block">
                     <h2>Education</h2>
-                    <p>{resume.education}</p>
+                    <p>{resume.education || "Education not provided"}</p>
                   </div>
 
                   <div className="resume-block">
                     <h2>Skills</h2>
-                    <p>{resume.skills}</p>
+                    <p>{resume.skills || "Skills not provided"}</p>
                   </div>
 
                   <div className="resume-block">
                     <h2>Experience</h2>
-                    <p>{resume.experience}</p>
+                    <p>{resume.experience || "Experience not provided"}</p>
                   </div>
 
                   <div className="resume-block">
                     <h2>Projects</h2>
-                    <p>{resume.projects}</p>
+                    <p>{resume.projects || "Projects not provided"}</p>
                   </div>
+
+                  <div className="resume-block">
+                    <h2>Career Objective</h2>
+                    <p>
+                      {resume.summary ||
+                        "Seeking an opportunity to apply my technical skills, problem-solving ability, and passion for software development in a growth-oriented organization."}
+                    </p>
+                  </div>
+                </div>
+              )}
 
                   <div className="resume-block">
                     <h2>Career Objective</h2>
